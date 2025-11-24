@@ -1,0 +1,5 @@
+<h2>Esto es un texto 2</h2>
+<h3>El texto ha cambiado.</h3>
+<p>Otra cosa.
+Nueva línea
+</p>

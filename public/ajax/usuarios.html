@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Lista de usuarios</h1>
+    <p>
+        <button onclick="loadUsers()">Cargar usuarios</button>
+    </p>
+    <ul id="userList"></ul>
+
+    <script>
+        const userList = document.getElementById('userList');
+
+        function loadUsers() {
+            userList.innerHTML = "";
+            fetch('data.json')
+            .then(result => result.json())
+            .then(users => {
+                users.forEach(user => {
+                    console.log(user.name);
+                    const li = document.createElement('li');
+                    li.textContent = user.name;
+                    userList.append(li);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

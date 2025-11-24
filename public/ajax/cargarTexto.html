@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Cargar Texto:</h1>
+    <div id="contenido"></div>
+    <button onclick="loadText('texto1.txt')">Cargar contenido 1</button>
+    <button onclick="loadText('texto2.txt')">Cargar contenido 2</button>
+    
+    <script>
+        const divContenido = document.getElementById('contenido');
+
+        function loadText(file) {
+            fetch(file)
+            .then( result => result.text() )
+            .then( text => divContenido.innerHTML = text )
+            .catch( error => {
+                console.log("hubo un error: ", error);
+                divContenido.innerHTML = "Error al cargar el contenido!"
+            });
+            divContenido.textContent = "Cargando....";
+        }
+    </script>
+</body>
+</html>

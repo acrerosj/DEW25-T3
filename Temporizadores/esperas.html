@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        // Nombre y retraso en segundos.
+        const users = [
+            {name: "Pepe", delay: 3},
+            {name: "Ana", delay: 10},
+            {name: "Juan", delay: 1},
+            {name: "Alberto", delay: 6},
+            {name: "Marta", delay: 3}
+        ];
+
+        function saludar(name) {
+            console.log('Hola ' + name);
+        }
+
+        users.forEach( user => {
+            setTimeout(saludar, user.delay*1000, user.name);
+            // setTimeout(()=>saludar(user.name), user.delay); // Otra solución creando funciones anónimas por cada usuario.
+        });
+
+    </script>
+</body>
+</html>

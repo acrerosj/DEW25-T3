@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronometro</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-size: 10rem;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="counter">0</h1>
+    <p>
+        <button onclick="stop()" id="btn-stop">Parar</button>
+        <button onclick="start()" id="btn-start">Reiniciar</button>
+    </p>
+    <script>
+        const counter = document.getElementById('counter');
+        const btnStart = document.getElementById('btn-start');
+        const btnStop = document.getElementById('btn-stop');
+
+        let idInterval = 0;
+
+        function stop() {
+            clearInterval(idInterval);
+            idInterval = 0;
+            btnStart.disabled = false;
+            btnStop.disabled = true;
+        }
+
+        function start() {
+            if (idInterval == 0) {
+                idInterval = setInterval(
+                    () => { counter.textContent++ },
+                    1000
+                )
+                btnStart.disabled = true;
+                btnStop.disabled = false;
+            }
+        }
+
+        start();
+    </script>
+</body>
+</html>
