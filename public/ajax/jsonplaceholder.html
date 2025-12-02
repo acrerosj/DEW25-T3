@@ -13,8 +13,13 @@
     <hr>
     <h2>Listado de albumes</h2>
     <ul id="albums-list"></ul>
+    <hr>
+    <h3>Listado de fotos</h3>
+    <ul id="photos-list"></ul>
     <script>
         const userList = document.getElementById('users-list');
+        const albumsList = document.getElementById('albums-list');
+        const photosList = document.getElementById('photos-list');
 
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(response => response.json())
@@ -31,8 +36,47 @@
         }
 
         userList.addEventListener('change', (event) => {
-            console.log(userList.value)
+            fetch(`https://jsonplaceholder.typicode.com/users/${userList.value}/albums`)
+            .then(response => response.json())
+            .then(albums => {
+                console.log(albums);
+                albumsList.textContent ='';
+                albums.forEach(album => insertAlbum(album));
+            });
         });
+
+        function insertAlbum(album) {
+            const li = document.createElement('li');
+            li.textContent = album.title;
+            li.dataset.id = album.id;
+            albumsList.append(li);
+        }
+
+        albumsList.addEventListener('click', (event) => {
+            const album = event.target;
+            if (album.tagName === 'LI') {
+                console.log(album.dataset.id);
+                // Buscar las fotos
+                fetch(`https://jsonplaceholder.typicode.com/albums/${album.dataset.id}/photos`)
+                .then(response => response.json())
+                .then(photos => {
+                    console.log(photos);
+                    photosList.textContent = "";
+                    photos.forEach(photo => insertPhoto(photo));
+                });
+            }
+        });
+
+        function insertPhoto(photo) {
+            const li = document.createElement('li');
+            const img = document.createElement('img');
+            img.title = photo.title;
+            img.dataset.id = photo.id;
+            img.src = photo.url;
+            li.append(img);
+            photosList.append(li);
+        }
+
 
     </script>
 </body>
