@@ -7,7 +7,12 @@
 </head>
 <body>
     <h1>Lista de Usuarios</h1>
-    <ul id="users-list"></ul>
+    <select id="users-list">
+        <option disabled selected>Elige un usuario...</option>
+    </select>
+    <hr>
+    <h2>Listado de albumes</h2>
+    <ul id="albums-list"></ul>
     <script>
         const userList = document.getElementById('users-list');
 
@@ -18,11 +23,17 @@
             });
 
         function insertUser(user) {
-            const li = document.createElement('li');
-            console.log(user);
-            li.textContent = `${user.name} (${user.company.name})`;
-            userList.append(li);
+            const option = document.createElement('option');
+            // console.log(user);
+            option.textContent = `${user.name} (${user.company.name})`;
+            option.value = user.id
+            userList.append(option);
         }
+
+        userList.addEventListener('change', (event) => {
+            console.log(userList.value)
+        });
+
     </script>
 </body>
 </html>
