@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Lista de Usuarios</h1>
+    <select id="users-list">
+        <option disabled selected>Elige un usuario...</option>
+    </select>
+    <hr>
+    <h2>Listado de albumes</h2>
+    <ul id="albums-list"></ul>
+    <hr>
+    <h3>Listado de fotos</h3>
+    <ul id="photos-list"></ul>
+    <script>
+        const userList = document.getElementById('users-list');
+        const albumsList = document.getElementById('albums-list');
+        const photosList = document.getElementById('photos-list');
+
+        loadUsers();
+
+        async function loadUsers() {
+            try {
+                let response = await fetch('https://jsonplaceholder.typicode.com/users');
+                if (!response.ok) {
+                    throw new Error('Error en la red');
+                }
+                let users = await response.json();
+                users.forEach(user => insertUser(user));
+            } catch (error) {
+                console.log('Error en loadUsers: ', error);
+            }
+        }
+
+        // fetch('https://jsonplaceholder.typicode.com/users')
+        //     .then(response => response.json())
+        //     .then(users => {
+        //         users.forEach(user => insertUser(user));
+        //     });
+
+        function insertUser(user) {
+            const option = document.createElement('option');
+            // console.log(user);
+            option.textContent = `${user.name} (${user.company.name})`;
+            option.value = user.id
+            userList.append(option);
+        }
+
+        userList.addEventListener('change', (event) => loadAlbums());
+
+        async function loadAlbums() {
+            try {
+                let response = await fetch(`https://jsonplaceholder.typicode.com/users/${userList.value}/albums`);
+                if (!response.ok) {
+                    throw new Error('Error en la red');
+                }
+                let albums = await response.json();
+                albumsList.textContent ='';
+                albums.forEach(album => insertAlbum(album));
+
+            } catch (error) {
+                console.log('Error en loadAlbums: ', error);
+                alert('Fallo en la red. Intenta dentro de unos minutos');
+            }
+        }
+
+        function insertAlbum(album) {
+            const li = document.createElement('li');
+            li.textContent = album.title;
+            li.dataset.id = album.id;
+            albumsList.append(li);
+        }
+
+        albumsList.addEventListener('click', (event) => {
+            const album = event.target;
+            if (album.tagName === 'LI') {
+                loadPhotos(album.dataset.id)
+            }
+        });
+
+        async function loadPhotos(id) {
+            try {
+                let response = await fetch(`https://jsonplaceholder.typicode.com/albums/${id}/photos`);
+                if (!response.ok) {
+                    throw new Error('Error en la red');
+                }
+                let photos = await response.json();
+                photosList.textContent = "";
+                photos.forEach(photo => insertPhoto(photo));
+            } catch (error) {
+                console.log('Error en loadPhotos: ', error);
+            }
+        }
+
+        function insertPhoto(photo) {
+            const li = document.createElement('li');
+            const img = document.createElement('img');
+            img.title = photo.title;
+            img.dataset.id = photo.id;
+            img.src = photo.url;
+            li.append(img);
+            photosList.append(li);
+        }
+
+    </script>
+</body>
+</html>
