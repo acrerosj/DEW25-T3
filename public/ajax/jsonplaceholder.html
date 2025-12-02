@@ -14,12 +14,14 @@
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(response => response.json())
             .then(users => {
-                console.log(users);
-                users.foreach(user => insertUser(user));
+                users.forEach(user => insertUser(user));
             });
 
         function insertUser(user) {
+            const li = document.createElement('li');
             console.log(user);
+            li.textContent = `${user.name} (${user.company.name})`;
+            userList.append(li);
         }
     </script>
 </body>
